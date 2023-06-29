@@ -54,7 +54,7 @@ ggpairs(elem)
 clPairs(data.notrees)
 
 #####
-#cluster analysis 
+#cluster analysis of elements only 
 
 MC.1 <- Mclust(elem)
 plot(MC.1)
@@ -69,4 +69,22 @@ table(sites$`Tree Species`, MC.1$classification)
 # plot of Dimentions 1 and 2 and the groups of Mclust analysis 
 # with labelling of tree species 
 fviz_cluster(MC.1) +
+  geom_text(aes(label = sites$`Tree Species`))
+
+#####
+#cluster analysis of elements AND proximity to pollution sources 
+
+MC.2 <- Mclust(data.notrees)
+plot(MC.2)
+
+# create a dendrogram of groups - doesn't tell much 
+output.2 <- clustCombi(data = data.notrees)
+combiTree(output.2, type = "rectangle", yaxis = "step")
+
+# create a table with tree species in each group from Mclust analysis
+table(sites$`Tree Species`, MC.2$classification)
+
+# plot of Dimentions 1 and 2 and the groups of Mclust analysis 
+# with labelling of tree species 
+fviz_cluster(MC.2) +
   geom_text(aes(label = sites$`Tree Species`))
